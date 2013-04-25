@@ -25,20 +25,23 @@ public class CategoryController extends ActionSupport implements
 			.getLogger(CategoryController.class);
 
 	// TODO: wire up for injection
-	private Category model = new CategoryImpl();
+	public Category model = new CategoryImpl();
 
-	private CategoryDao categoryDao;
+	public CategoryDao categoryDao;
 
-	private String id;
+	public int id;
+	
 	private Collection<Category> list;
 
 	// GET /category/1
 	public HttpHeaders show() {
+		logger.info("show()");
 		return new DefaultHttpHeaders("show");
 	}
 
 	// GET /category
 	public HttpHeaders index() {
+		logger.info("index()");
 		list = categoryDao.loadAll();
 		return new DefaultHttpHeaders("index").disableCaching();
 	}
@@ -84,15 +87,16 @@ public class CategoryController extends ActionSupport implements
 //		// validation ??
 //	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
+		logger.info("setId() [" + id + "]");
 		if (id != null) {
-			logger.info("id = [" + id + "]");
-			this.model = categoryDao.load(Integer.valueOf(id));
+			//this.model = categoryDao.load(id);
 		}
 		this.id = id;
 	}
 
 	public Object getModel() {
+		logger.info("getModel()");
 		return (list != null ? list : model);
 	}
 

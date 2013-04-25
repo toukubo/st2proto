@@ -4,12 +4,59 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+  <package name="storyteller2-default" extends="rest-default">
+    <interceptors>
+      <interceptor name="modelinject"
+        class="net.storyteller2.web.ModelInjectInterceptor" />
+
+      <interceptor-stack name="storytellerStack">
+        <interceptor-ref name="exception" />
+        <interceptor-ref name="alias" />
+        <interceptor-ref name="servletConfig" />
+        <interceptor-ref name="messages">
+          <param name="operationMode">AUTOMATIC</param>
+        </interceptor-ref>
+        <interceptor-ref name="prepare" />
+        <interceptor-ref name="i18n" />
+        <interceptor-ref name="chain" />
+        <interceptor-ref name="debugging" />
+        <interceptor-ref name="profiling" />
+        <interceptor-ref name="actionMappingParams" />
+        <interceptor-ref name="scopedModelDriven" />
+        <interceptor-ref name="modelDriven">
+          <param name="refreshModelBeforeResult">true</param>
+        </interceptor-ref>
+        <interceptor-ref name="fileUpload" />
+        <interceptor-ref name="checkbox" />
+        <interceptor-ref name="staticParams" />
+        <interceptor-ref name="params">
+          <param name="excludeParams">dojo\..*</param>
+        </interceptor-ref>
+        <interceptor-ref name="rest" />
+        <interceptor-ref name="conversionError" />
+        <interceptor-ref name="validation">
+          <param name="excludeMethods">input,back,cancel,browse,index,show,edit,editNew</param>
+        </interceptor-ref>
+        <interceptor-ref name="restWorkflow">
+          <param name="excludeMethods">input,back,cancel,browse,index,show,edit,editNew</param>
+        </interceptor-ref>
+        <interceptor-ref name="modelinject" />
+      </interceptor-stack>
+    </interceptors>
+
+    <default-interceptor-ref name="storytellerStack" />
+
+    <default-action-ref name="category" />
+
+  </package>
+
+
   <!-- Overwrite Convention -->
   <constant name="struts.convention.action.suffix" value="Controller" />
   <constant name="struts.convention.action.mapAllMatches"
     value="true" />
   <constant name="struts.convention.default.parent.package"
-    value="rest-default" />
+    value="storyteller2-default" />
 
   <constant name="struts.convention.package.locators" value="app" />
 </struts>

@@ -23,13 +23,17 @@
     </logger>
   
     <logger name="com.opensymphony">
-      <level value="INFO" />
+      <level value="DEBUG" />
     </logger>
   
     <logger name="org.springframework">
-      <level value="INFO" />
+      <level value="DEBUG" />
     </logger>
   
+    <logger name="net.storyteller2">
+      <level value="DEBUG" />
+    </logger>
+    
    <!--
       org.hibernate.SQL             Log all SQL DML statements as they are executed
       org.hibernate.type            Log all JDBC parameters
