@@ -13,12 +13,12 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.opensymphony.xwork2.ValidationAwareSupport;
 
 @Results({ @Result(name = "success", type = "redirectAction", params = {
 		"actionName", "category" }) })
-public class CategoryController extends ValidationAwareSupport implements
+public class CategoryController extends ActionSupport implements
 		ModelDriven<Object> {
 
 	private static Logger logger = LoggerFactory
@@ -80,9 +80,9 @@ public class CategoryController extends ValidationAwareSupport implements
 		return "success";
 	}
 
-	public void validate() {
-		// validation ??
-	}
+//	public void validate() {
+//		// validation ??
+//	}
 
 	public void setId(String id) {
 		if (id != null) {

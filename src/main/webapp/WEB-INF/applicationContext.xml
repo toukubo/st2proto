@@ -3,52 +3,53 @@
 
 <beans>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
-		<property name="mappingResources">
-			<list>
-				<value>net/malta/model/Category.hbm.xml</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
-				<prop key="hibernate.cache.use_query_cache">false</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
-				<prop key="hibernate.cache.query_cache_factory">org.hibernate.cache.StandardQueryCacheFactory</prop>
-				<!-- applicationContext hibernateProperties merge-point -->
-			</props>
-		</property>
-	</bean>
+  <bean id="sessionFactory"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource">
+      <ref bean="dataSource" />
+    </property>
+    <property name="mappingResources">
+      <list>
+        <value>net/malta/model/Category.hbm.xml</value>
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+        <prop key="hibernate.cache.use_query_cache">false</prop>
+        <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+        <prop key="hibernate.cache.query_cache_factory">org.hibernate.cache.StandardQueryCacheFactory</prop>
+        <!-- applicationContext hibernateProperties merge-point -->
+      </props>
+    </property>
+  </bean>
 
-	<!-- The Hibernate interceptor -->
-	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
+  <!-- The Hibernate interceptor -->
+  <bean id="hibernateInterceptor"
+    class="org.springframework.orm.hibernate3.HibernateInterceptor">
+    <property name="sessionFactory">
+      <ref bean="sessionFactory" />
+    </property>
+  </bean>
 
-	<!-- Category Entity Proxy with inner Category Entity implementation -->
-	<bean id="categoryDao" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="target">
-			<bean class="net.malta.model.CategoryDaoImpl">
-				<property name="sessionFactory">
-					<ref local="sessionFactory" />
-				</property>
-			</bean>
-		</property>
-		<property name="proxyInterfaces">
-			<value>net.malta.model.CategoryDao</value>
-		</property>
-		<property name="interceptorNames">
-			<list>
-				<value>hibernateInterceptor</value>
-			</list>
-		</property>
-	</bean>
+  <!-- Category Entity Proxy with inner Category Entity implementation -->
+  <bean id="categoryDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target">
+      <bean class="net.malta.model.CategoryDaoImpl">
+        <property name="sessionFactory">
+          <ref local="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+    <property name="proxyInterfaces">
+      <value>net.malta.model.CategoryDao</value>
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <value>hibernateInterceptor</value>
+      </list>
+    </property>
+  </bean>
 
 </beans>

@@ -11,7 +11,7 @@
   <h1>Categories</h1>
   </div>
   <s:actionmessage cssClass="alert alert-error"/>
-  <table>
+  <table id="categories">
   <tr>
     <th>ID</th>
     <th>Name</th>

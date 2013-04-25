@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+  <!-- ========================= DATASOURCE DEFINITION ========================= -->
 
-<beans>
+  <!-- Local DataSource that works in any environment -->
+  <bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName">
+      <value>com.mysql.jdbc.Driver</value>
+    </property>
+    <property name="username">
+      <value>malta</value>
+    </property>
+    <property name="password">
+      <value>malta</value>
+    </property>
+    <property name="url">
+      <value>jdbc:mysql://localhost/malta?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true
+      </value>
+    </property>
+  </bean>
 
-    <!-- ========================= DATASOURCE DEFINITION ========================= -->
+  <!-- ====================== End of DATASOURCE DEFINITION ====================== -->
 
-    <!-- Local DataSource that works in any environment -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property>
-        <property name="username"><value>malta</value></property>
-        <property name="password"><value>malta</value></property>
-        <property name="url"><value>jdbc:mysql://localhost/malta?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true</value></property>
-    </bean>
+  <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
 
-    <!-- ====================== End of DATASOURCE DEFINITION ====================== -->
+  <!-- (local) Transaction Manager -->
+  <bean id="transactionManager"
+    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory">
+      <ref bean="sessionFactory" />
+    </property>
+  </bean>
 
-    <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
-
-    <!-- (local) Transaction Manager -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory"><ref bean="sessionFactory"/></property>
-    </bean>
-
-    <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
+  <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
 
 </beans>

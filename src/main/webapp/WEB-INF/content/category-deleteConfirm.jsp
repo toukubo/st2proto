@@ -14,8 +14,8 @@
  <form action="../${id}?_method=DELETE" method="post">
   <p>Are you sure you want to delete category ${id}?</p>
   <div>
-   <input type="submit" value="Delete" /> <input type="button"
-    value="Cancel" />
+   <input type="submit" value="Delete" name="Delete"/> 
+   <input type="button" value="Cancel" name="Cancel"/>
   </div>
  </form>
  <br />
