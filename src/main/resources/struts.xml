@@ -22,6 +22,7 @@
         <interceptor-ref name="debugging" />
         <interceptor-ref name="profiling" />
         <interceptor-ref name="actionMappingParams" />
+        <interceptor-ref name="modelinject" />
         <interceptor-ref name="scopedModelDriven" />
         <interceptor-ref name="modelDriven">
           <param name="refreshModelBeforeResult">true</param>
@@ -40,7 +41,6 @@
         <interceptor-ref name="restWorkflow">
           <param name="excludeMethods">input,back,cancel,browse,index,show,edit,editNew</param>
         </interceptor-ref>
-        <interceptor-ref name="modelinject" />
       </interceptor-stack>
     </interceptors>
 
