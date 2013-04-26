@@ -10,9 +10,8 @@
     <spring.version>3.0.5.RELEASE</spring.version>      <!-- use the struts2-parent version of Spring -->
     <struts.version>2.3.12</struts.version>
     <hibernate.version>3.6.10.Final</hibernate.version>
-    <!-- 
-    <jetty.version>8.1.7.v20120910</jetty.version>   use the jwebunit version to be compatible
-     -->
+    <!-- <jetty.version>8.1.7.v20120910</jetty.version> use the jwebunit 
+      version to be compatible -->
     <jetty.version>9.0.1.v20130408</jetty.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -155,25 +154,23 @@
       <groupId>net.sourceforge.jwebunit</groupId>
       <artifactId>jwebunit-core</artifactId>
       <version>3.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jwebunit</groupId>
       <artifactId>jwebunit-htmlunit-plugin</artifactId>
       <version>3.1</version>
-    </dependency>
-    <!-- 
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
-      <version>${jetty.version}</version>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.5</version>
       <scope>test</scope>
     </dependency>
-     -->
+    <!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-server</artifactId> 
+      <version>${jetty.version}</version> <scope>test</scope> </dependency> <dependency> 
+      <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-webapp</artifactId> 
+      <version>${jetty.version}</version> <scope>test</scope> </dependency> -->
   </dependencies>
 </project>
