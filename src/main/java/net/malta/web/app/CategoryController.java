@@ -24,7 +24,6 @@ public class CategoryController extends ActionSupport implements
 	private static Logger logger = LoggerFactory
 			.getLogger(CategoryController.class);
 
-	// TODO: wire up for injection
 	public Category model = new CategoryImpl();
 
 	public CategoryDao categoryDao;
@@ -65,21 +64,21 @@ public class CategoryController extends ActionSupport implements
 	// DELETE /category/1
 	public String destroy() {
 		categoryDao.remove(Integer.valueOf(id));
-		addActionMessage("Order removed successfully");
+		addActionMessage("Category removed successfully");
 		return "success";
 	}
 
 	// POST /category
 	public HttpHeaders create() {
 		categoryDao.create(model);
-		addActionMessage("New order created successfully");
+		addActionMessage("New category created successfully");
 		return new DefaultHttpHeaders("success").setLocationId(model.getId());
 	}
 
 	// PUT /category/1
 	public String update() {
 		categoryDao.update(model);
-		addActionMessage("Order updated successfully");
+		addActionMessage("Category updated successfully");
 		return "success";
 	}
 
@@ -89,9 +88,6 @@ public class CategoryController extends ActionSupport implements
 
 	public void setId(Integer id) {
 		logger.info("setId() [" + id + "]");
-		if (id != null) {
-			//this.model = categoryDao.load(id);
-		}
 		this.id = id;
 	}
 

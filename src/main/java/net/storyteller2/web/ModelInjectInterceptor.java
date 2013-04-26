@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.ActionProxy;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 public class ModelInjectInterceptor extends AbstractInterceptor {
@@ -17,22 +18,26 @@ public class ModelInjectInterceptor extends AbstractInterceptor {
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		Object action = invocation.getAction();
-		Class actionClass = action.getClass();
-		logger.debug("action class = " + actionClass);
+		String proxyMethod = invocation.getProxy().getMethod();
+		if (!proxyMethod.equals("create")) {
+			Object action = invocation.getAction();
+			Class actionClass = action.getClass();
+			logger.debug("action class = " + actionClass);
 
-		Object dao = getDao(action);
-		logger.debug("dao class = " + dao.getClass());
+			Object dao = getDao(action);
+			logger.debug("dao class = " + dao.getClass());
 
-		int id = getId(action);
-		logger.debug("category id = " + id);
+			int id = getId(action);
+			logger.debug("category id = " + id);
 
-		Method method = dao.getClass().getMethod("load", Integer.class);
-		Object modelObject = method.invoke(dao, id);
+			Method method = dao.getClass().getMethod("load", Integer.class);
+			Object modelObject = method.invoke(dao, id);
 
-		Field modelField = actionClass.getField("model");
-		modelField.set(action, modelObject);
-
+			if (modelObject != null) {
+				Field modelField = actionClass.getField("model");
+				modelField.set(action, modelObject);
+			}
+		}
 		return invocation.invoke();
 	}
 
