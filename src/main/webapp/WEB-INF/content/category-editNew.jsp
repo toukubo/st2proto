@@ -13,7 +13,7 @@
 
  <s:fielderror cssClass="alert alert-error" />
 
- <s:form method="post" action="%{#request.contextPath}/category"
+ <s:form method="post" action="%{#request.contextPath}category"
   cssClass="form-horizontal" theme="simple">
   <div>
    <label>Name</label>
