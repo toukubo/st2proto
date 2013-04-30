@@ -11,37 +11,60 @@ import com.opensymphony.xwork2.ActionProxy;
 
 public class ModelInjectInterceptorTest {
 
-	private ModelInjectInterceptor interceptor;
-	private TestController controller;
+    private ModelInjectInterceptor interceptor;
+    private TestController controller;
 
-	@Before
-	public void setUp() {
-		interceptor = new ModelInjectInterceptor();
-		controller = new TestController();
-	}
-	
-    @Test
-    public void testInterceptor() throws Exception {
-        assertNull(controller.model);
-        ActionInvocation invocation = createActionInvocation("show", controller);
-        interceptor.intercept(invocation);
-        assertEquals("themodel", (String) controller.model);
+    @Before
+    public void setUp() {
+        interceptor = new ModelInjectInterceptor();
+        controller = new TestController();
     }
-	
-	@Test
-	public void testGetDao() throws Exception {
-		assertEquals(TestDao.class, interceptor.getDao(controller).getClass());
-	}
-	
-	@Test
-	public void testGetId() throws Exception {
-		assertEquals(5, interceptor.getId(controller));
-	}
 
-	@Test
-	public void testBuildDaoName() {
-		assertEquals("testDao", interceptor.buildDaoName("TestController"));
-	}
+    @Test
+    public void testInterceptorShowMethod() throws Exception {
+        String[] methods = { "show", "edit" };
+        for (int i = 0; i < methods.length; i++) {
+            String method = methods[i];
+            controller.model = null;
+            ActionInvocation invocation = createActionInvocation(method,
+                    controller);
+            interceptor.intercept(invocation);
+            assertEquals("method " + method, "themodel",
+                    (String) controller.model);
+        }
+    }
+
+    @Test
+    public void testInterceptorOtherMethods() throws Exception {
+        String[] otherMethods = { "deleteConfirm", "index", "editNew",
+                "create", "destroy", "update" };
+        for (int i = 0; i < otherMethods.length; i++) {
+            String method = otherMethods[i];
+            assertNull(controller.model);
+            ActionInvocation invocation = createActionInvocation(method,
+                    controller);
+            interceptor.intercept(invocation);
+            assertNull("not null for method " + method, controller.model);
+        }
+    }
+
+    @Test
+    public void testGetDao() throws Exception {
+        assertEquals(TestDao.class, interceptor.getDao(controller).getClass());
+        assertNull(interceptor.getDao(new TestNoDaoController()));
+    }
+
+    @Test
+    public void testGetId() throws Exception {
+        assertEquals(5, interceptor.getId(controller));
+    }
+
+    @Test
+    public void testBuildDaoName() {
+        assertEquals("testDao", interceptor.buildDaoName("TestController"));
+        assertEquals("oneTwoDao", interceptor.buildDaoName("OneTwoController"));
+        assertNull(interceptor.buildDaoName("MyAction"));
+    }
 
     private ActionInvocation createActionInvocation(String method, Object action) {
         ActionProxy actionProxy = mock(ActionProxy.class);
@@ -53,17 +76,28 @@ public class ModelInjectInterceptorTest {
 
         return actionInvocation;
     }
-    
-	class TestController {
-		public int id = 5;
-		public TestDao testDao = new TestDao();
-		public Object model = null;
-	}
-	
-	class TestDao { 
-		public Object load(Integer id) {
-			return new String("themodel");
-		}
-	}
+
+    class TestController {
+        public int id = 5;
+        public TestDao testDao = new TestDao();
+        public Object model = null;
+    }
+
+    class TestNonStandardController {
+        public int id = 5;
+        public TestDao testDao = new TestDao();
+        public Object model = null;
+    }
+
+    class TestNoDaoController {
+        public int id = 5;
+        public Object model = null;
+    }
+
+    class TestDao {
+        public Object load(Integer id) {
+            return new String("themodel");
+        }
+    }
 
 }
