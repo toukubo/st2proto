@@ -35,17 +35,19 @@ public class ModelInjectInterceptor extends AbstractInterceptor {
         boolean isInjectableMethod = INJECTABLE_METHODS.contains(proxyMethod);
         if (isInjectableMethod && isRestController) {
             Object dao = getDao(action);
-            logger.debug("dao class = " + dao.getClass());
+            if (dao != null) {
+                logger.debug("dao class = " + dao.getClass());
 
-            int id = getId(action);
-            logger.debug("category id = " + id);
+                int id = getId(action);
+                logger.debug("category id = " + id);
 
-            Method method = dao.getClass().getMethod("load", Integer.class);
-            Object modelObject = method.invoke(dao, id);
+                Method method = dao.getClass().getMethod("load", Integer.class);
+                Object modelObject = method.invoke(dao, id);
 
-            if (modelObject != null) {
-                Field modelField = actionClass.getField("model");
-                modelField.set(action, modelObject);
+                if (modelObject != null) {
+                    Field modelField = actionClass.getField("model");
+                    modelField.set(action, modelObject);
+                }
             }
         }
         return invocation.invoke();
