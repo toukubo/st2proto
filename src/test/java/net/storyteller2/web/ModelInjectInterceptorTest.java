@@ -21,7 +21,7 @@ public class ModelInjectInterceptorTest {
     }
 
     @Test
-    public void testInterceptorShowMethod() throws Exception {
+    public void testInterceptorDefaultInjectedMethods() throws Exception {
         String[] methods = { "show", "edit" };
         for (int i = 0; i < methods.length; i++) {
             String method = methods[i];
@@ -35,7 +35,7 @@ public class ModelInjectInterceptorTest {
     }
 
     @Test
-    public void testInterceptorOtherMethods() throws Exception {
+    public void testInterceptorExcludedMethods() throws Exception {
         String[] otherMethods = { "deleteConfirm", "index", "editNew",
                 "create", "destroy", "update" };
         for (int i = 0; i < otherMethods.length; i++) {
@@ -46,6 +46,17 @@ public class ModelInjectInterceptorTest {
             interceptor.intercept(invocation);
             assertNull("not null for method " + method, controller.model);
         }
+    }
+
+    @Test
+    public void testInterceptorNonDefaultMethod() throws Exception {
+        final String method = "showWithTag";
+        controller.model = null;
+        ActionInvocation invocation = createActionInvocation(method,
+                controller);
+        interceptor.intercept(invocation);
+        assertEquals("method " + method, "themodel",
+                (String) controller.model);
     }
 
     @Test

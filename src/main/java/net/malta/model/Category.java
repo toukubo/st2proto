@@ -5,6 +5,8 @@
 //
 package net.malta.model;
 
+import java.util.Collection;
+
 /**
  * 
  */
@@ -61,6 +63,19 @@ public abstract class Category
         this.products = products;
     }
 
+    private Collection tags;
+
+    public void setTags(Collection tags) 
+    {
+        this.tags = tags;
+    }
+    
+    public Collection getTags() 
+    {
+        return this.tags;
+    }
+    
+    
     /**
      * Returns <code>true</code> if the argument is an Category instance and all identifiers for this entity
      * equal the identifiers of the argument entity. Returns <code>false</code> otherwise.

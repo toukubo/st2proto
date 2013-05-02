@@ -62,4 +62,37 @@ public class CategoryControllerTest {
 		catList = getTable("categories");
 		assertThat(catList.getRowCount(), is(7));
 	}
+
+    @Test
+    public void testShowTagsJson() {
+        beginAt("category/5/showTags.json");
+        final String EXPECTED = 
+                "{\"id\":5,\"tags\":[{\"tagId\":1111},{\"tagId\":2222}]}";
+        assertEquals(EXPECTED, getPageSource());
+    }
+
+    @Test
+    public void testShowWithProductJson() {
+        beginAt("category/5/showWithProduct.json");
+        final String EXPECTED = "{\"id\":5,\"name\":\"Potted Green\",\"products\":[\"1\",\"2\"],\"tags\":[]}";
+        assertEquals(EXPECTED, getPageSource());
+    }
+
+    @Test
+    public void testShowWithProductXml() {
+        beginAt("category/5/showWithProduct.xml");
+        String XML = getPageSource();
+        assertMatch("<id>5</id>", XML);
+        assertMatch("<name>Potted Green</name>", XML);
+        assertMatch("<products class=\"list\">", XML);
+        assertMatch("<string>1</string>", XML);
+    }
+
+    @Test
+    public void testShowWithProductXhtml() {
+        beginAt("category/5/showWithProduct.xhtml");
+        assertTitleEquals("Category 5");
+        assertMatch("Potted Green");
+    }
+    
 }

@@ -51,5 +51,12 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="showCategoryTags" class="net.malta.adverbial.ShowCategoryTags">
+    <property name="tagDao" ref="tagDao"/>
+  </bean>
+
+  <bean id="tagDao" class="net.malta.model.TagDao">
+  </bean>
 
 </beans>

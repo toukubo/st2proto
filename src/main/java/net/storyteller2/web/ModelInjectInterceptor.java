@@ -14,10 +14,16 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 public class ModelInjectInterceptor extends AbstractInterceptor {
     private static final long serialVersionUID = 8672868777153078486L;
 
-    private static final Collection<String> INJECTABLE_METHODS = new ArrayList<String>();
+    // Black list rather then white list to allow custom methods to be injected. 
+    // eg. showWithTag. 
+    private static final Collection<String> EXCLUDED_METHODS = new ArrayList<String>();
     static {
-        INJECTABLE_METHODS.add("show");
-        INJECTABLE_METHODS.add("edit");
+        EXCLUDED_METHODS.add("create");
+        EXCLUDED_METHODS.add("update");
+        EXCLUDED_METHODS.add("destroy");
+        EXCLUDED_METHODS.add("editNew");
+        EXCLUDED_METHODS.add("deleteConfirm");
+        EXCLUDED_METHODS.add("index");
     }
     
     private static Logger logger = LoggerFactory
@@ -32,8 +38,8 @@ public class ModelInjectInterceptor extends AbstractInterceptor {
 
         boolean isRestController = actionClass.getSimpleName().endsWith(
                 "Controller");
-        boolean isInjectableMethod = INJECTABLE_METHODS.contains(proxyMethod);
-        if (isInjectableMethod && isRestController) {
+        boolean isExcludedMethod = EXCLUDED_METHODS.contains(proxyMethod);
+        if (!isExcludedMethod && isRestController) {
             Object dao = getDao(action);
             if (dao != null) {
                 logger.debug("dao class = " + dao.getClass());
