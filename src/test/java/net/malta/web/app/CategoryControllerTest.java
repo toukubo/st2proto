@@ -8,7 +8,10 @@ import static org.junit.Assert.*;
 import net.sourceforge.jwebunit.html.Row;
 import net.sourceforge.jwebunit.html.Table;
 
-import org.junit.Before;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CategoryControllerTest {
@@ -20,26 +23,33 @@ public class CategoryControllerTest {
 
     private final static String PATH = CONTEXT_PATH + "/category";
     private final static String TEST_CAT = "JwebtestCategory";
+    private static Server server;
 
-    @Before
-    public void prepare() throws Exception {
-
-        // TODO: run embedded Jetty for zero setup test runs...
-
-        // server = new Server(PORT);
-        // server.setHandler(new WebAppContext("src/main/webapp",
-        // CONTEXT_PATH));
-        // server.start();
+    @BeforeClass
+    public static void prepare() throws Exception {
+//        server = new Server(PORT);
+//
+//        WebAppContext webAppContext = new WebAppContext();
+//        webAppContext.setWar("target/st2proto.war"); // from "mvn war:war"
+//        webAppContext.setContextPath("/st2proto");
+//        // webAppContext.setServer(server);
+//
+//        server.setHandler(webAppContext);
+//        server.start();
 
         setBaseUrl(BASE_URL);
     }
 
-    
+    @AfterClass
+    public static void stop() throws Exception {
+//        server.stop();
+    }
+
     /******************* JSON Tests - START ********************/
     // to preserve readable rest assured format - disable auto formatter:
     // @formatter:off
     @Test
-    public void testGetJson() throws Exception {
+    public void testJsonGet() throws Exception {
         expect().
             body("id", equalTo(1)).and().
             body("name", equalTo("Season's Special?1?")).
@@ -110,7 +120,6 @@ public class CategoryControllerTest {
     // @formatter:on
     /******************* JSON Tests - END ********************/
 
-    
     /******************* XHTML Tests - START ********************/
     @Test
     public void testIndex() {
@@ -181,7 +190,6 @@ public class CategoryControllerTest {
 
     /******************* XHTML Tests - END ********************/
 
-    
     /******************* showWithProduct Tests - START ********************/
     @Test
     public void testShowWithProductXml() {
