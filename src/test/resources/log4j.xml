@@ -13,19 +13,19 @@
     </appender>
 
     <logger name="org.apache.struts2">
-      <level value="DEBUG" />
+      <level value="WARN" />
     </logger>
   
     <logger name="org.eclipse.jetty">
-      <level value="DEBUG" />
+      <level value="WARN" />
     </logger>
   
     <logger name="com.opensymphony">
-      <level value="DEBUG" />
+      <level value="WARN" />
     </logger>
   
     <logger name="org.springframework">
-      <level value="INFO" />
+      <level value="WARN" />
     </logger>
   
     <logger name="net.storyteller2">
@@ -46,11 +46,11 @@
       org.hibernate                 Log everything
     -->
     <logger name="org.hibernate">
-      <level value="WARN" />
+      <level value="ERROR" />
     </logger>
 
     <root>
-      <priority value="ERROR" />
+      <priority value="WARN" />
       <appender-ref ref="applog" />
     </root>
     

@@ -23,6 +23,8 @@ import com.opensymphony.xwork2.ModelDriven;
 public class CategoryController extends ActionSupport implements
         ModelDriven<Object> {
 
+    private static final long serialVersionUID = 8152503813048460154L;
+
     private static Logger logger = LoggerFactory
             .getLogger(CategoryController.class);
 
@@ -47,6 +49,7 @@ public class CategoryController extends ActionSupport implements
     }
 
     // GET /category
+    @SuppressWarnings("unchecked")
     public HttpHeaders index() {
         logger.info("index()");
         list = categoryDao.loadAll();

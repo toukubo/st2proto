@@ -8,11 +8,10 @@ import static org.junit.Assert.*;
 import net.sourceforge.jwebunit.html.Row;
 import net.sourceforge.jwebunit.html.Table;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+
+import com.jayway.restassured.RestAssured;
 
 public class CategoryControllerTest {
 
@@ -23,27 +22,13 @@ public class CategoryControllerTest {
 
     private final static String PATH = CONTEXT_PATH + "/category";
     private final static String TEST_CAT = "JwebtestCategory";
-    private static Server server;
 
-    @BeforeClass
-    public static void prepare() throws Exception {
-//        server = new Server(PORT);
-//
-//        WebAppContext webAppContext = new WebAppContext();
-//        webAppContext.setWar("target/st2proto.war"); // from "mvn war:war"
-//        webAppContext.setContextPath("/st2proto");
-//        // webAppContext.setServer(server);
-//
-//        server.setHandler(webAppContext);
-//        server.start();
-
+    @Before
+    public void prepare() throws Exception {
         setBaseUrl(BASE_URL);
+        RestAssured.reset();
     }
-
-    @AfterClass
-    public static void stop() throws Exception {
-//        server.stop();
-    }
+    
 
     /******************* JSON Tests - START ********************/
     // to preserve readable rest assured format - disable auto formatter:

@@ -16,11 +16,22 @@
   <!-- Disable jsession id in url causing jwebunit tests to fail
        see -> http://fralef.me/tomcat-disable-jsessionid-in-url.html 
        TODO: revisit this setting for courseware releases..
+             as it is probably preferable to allow this for browsers
+             with cookies disabled.
     -->
   <session-config>
     <tracking-mode>COOKIE</tracking-mode>
   </session-config>
 
+  <!-- Disable for Jetty as well 
+      TODO: roll a seperate test web.xml that has this and remove
+            this from the main one. 
+            -->
+  <context-param>
+    <param-name>org.eclipse.jetty.servlet.SessionIdPathParameterName</param-name>
+    <param-value>none</param-value>
+  </context-param>
+  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
