@@ -41,6 +41,9 @@
       org.hibernate.secure          Log all JAAS authorization requests
       org.hibernate                 Log everything
     -->
+    <logger name="org.hibernate.tool.hbmddl">
+      <level value="DEBUG" />
+    </logger>
     <logger name="org.hibernate">
       <level value="WARN" />
     </logger>

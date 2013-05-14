@@ -9,7 +9,7 @@
             </generator>
         </id>
         <property name="name" type="java.lang.String">
-            <column name="NAME" not-null="true" unique="false" sql-type="VARCHAR(255) BINARY"/>
+            <column name="NAME" not-null="true" unique="false" sql-type="VARCHAR(255)"/>
         </property>
         
         <!-- chris: Comment out for this prototype so we can run with just this one model -->

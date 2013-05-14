@@ -6,13 +6,16 @@
   <name>Storyteller 2 Prototype app</name>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
+
   <properties>
+    <env>test</env>
     <spring.version>3.0.5.RELEASE</spring.version> <!-- use the struts2-parent uses this version of Spring -->
     <struts.version>2.3.12</struts.version>
     <hibernate.version>3.6.10.Final</hibernate.version>
     <jetty.version>9.0.3.v20130506</jetty.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
   <repositories>
     <repository>
       <id>apache</id>
@@ -25,8 +28,36 @@
       <url>http://mvnrepository.com</url>
     </repository>
   </repositories>
+
+  <profiles>
+    <!-- Default profile is test: "mvn verify" will run all tests -->
+    <profile>
+      <id>test</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <env>test</env>
+      </properties>
+    </profile>
+
+    <!-- Dev profile for mysql war: "mvn -Ddev package" will build the war -->
+    <profile>
+      <id>dev</id>
+      <activation>
+        <property>
+          <name>dev</name>
+        </property>
+      </activation>
+      <properties>
+        <env>dev</env>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <finalName>st2proto</finalName>
+    <defaultGoal>verify</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -39,12 +70,23 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <warName>st2proto</warName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.14.1</version>
         <configuration>
           <includes>
             <include>**/*ControllerTest.java</include>
           </includes>
+          <properties>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          </properties>
         </configuration>
         <executions>
           <execution>
@@ -106,6 +148,7 @@
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.struts</groupId>
@@ -224,6 +267,11 @@
       <!-- Needs to be the same version that REST Assured depends on -->
       <version>2.1.2</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.2.9</version>
     </dependency>
   </dependencies>
 </project>

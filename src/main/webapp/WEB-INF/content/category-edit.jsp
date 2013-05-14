@@ -16,23 +16,11 @@
 
  <s:fielderror />
 
- <s:form method="post" action="%{#request.contextPath}/category/%{id}">
+ <s:form method="put" action="%{#pageContext.request.contextPath}/category/%{id}">
   <s:hidden name="_method" value="put" />
-  <div>
-   <label>ID</label>
-   <div>
-    <s:textfield id="id" name="id" disabled="true" />
-   </div>
-  </div>
-  <div>
-   <label>Name</label>
-   <div>
-    <s:textfield id="name" name="name" />
-   </div>
-  </div>
-  <div>
-   <s:submit />
-  </div>
+  <s:textfield id="id" label="ID" name="id" disabled="true" />
+  <s:textfield id="name" label="Name" name="name" />
+  <s:submit />
  </s:form>
  <a href="${pageContext.request.contextPath}/category"> <i></i> Back
   to Categories
