@@ -14,6 +14,7 @@
     <hibernate.version>3.6.10.Final</hibernate.version>
     <jetty.version>9.0.3.v20130506</jetty.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
   <repositories>
@@ -84,9 +85,6 @@
           <includes>
             <include>**/*ControllerTest.java</include>
           </includes>
-          <properties>
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-          </properties>
         </configuration>
         <executions>
           <execution>

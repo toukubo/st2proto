@@ -6,8 +6,13 @@ import static net.storyteller2.web.test.Util.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.jwebunit.html.Cell;
+import net.sourceforge.jwebunit.html.Row;
+import net.sourceforge.jwebunit.html.Table;
 
 import org.junit.After;
 import org.junit.Before;
@@ -163,10 +168,10 @@ public class CategoryControllerTest {
     public void testXHtmlDelete() {
         beginAt("category");
 
-        final int initalRowCount = getTable("categories").getRowCount();
-        final int catCount = initalRowCount - 1; // subtract <th> row
-        final int catIdx = catCount - 1; // 0 based index so -1
-        clickLinkWithText("Delete", catIdx);
+        Table table = getTable("categories");
+        final int initalRowCount = table.getRowCount();
+        int catLinksIdx = getTestCatTableIdx(table);
+        clickLinkWithText("Delete", catLinksIdx);
         assertTextPresent("Delete Category");
         assertSubmitButtonPresent("Delete");
 
@@ -178,11 +183,9 @@ public class CategoryControllerTest {
     public void testXHtmlEdit() {
         beginAt("category");
 
-        int catCount = getTable("categories").getRowCount() - 1; // has <th> row
-                                                                 // so -1
-        int catIdx = catCount - 1; // 0 based index so -1
-        clickLinkWithText("Edit", catIdx);
-        assertTitleMatch("Category.*");
+        int catLinksIdx = getTestCatTableIdx(getTable("categories"));
+        clickLinkWithText("Edit", catLinksIdx);
+        assertTitleMatch("Category " + TEST_CAT_ID);
         assertTextFieldEquals("name", TEST_CAT_NAME);
 
         final String NEW_CAT_NAME = TEST_CAT_NAME + " new";
@@ -251,9 +254,9 @@ public class CategoryControllerTest {
      * TEST_CAT_PREFIX by doing an HTTP DELETE
      */
     private static void removeAll() {
-        List<Map> categories = get(DEFAULT_PATH + ".json").jsonPath().getList(
+        List<Map<String,Object>> categories = get(DEFAULT_PATH + ".json").jsonPath().getList(
                 "");
-        for (Map cat : categories) {
+        for (Map<String,Object> cat : categories) {
             boolean isTestCat = ((String) cat.get("name"))
                     .startsWith(TEST_CAT_PREFIX);
             if (isTestCat) {
@@ -262,6 +265,26 @@ public class CategoryControllerTest {
         }
     }
 
+    /*
+     * Find testcat in the Html Table and return the index.
+     * This is index is used to lookup nth link in the table so subtract 1 for the <th> row.
+     * @param table JWebunit Table
+     * @return idx for the nth set of links for the Test category.
+     */
+    private int getTestCatTableIdx(Table table) {
+        @SuppressWarnings("unchecked")
+        ArrayList<Row> rows = table.getRows();
+        for (int idx = 0; idx < rows.size(); idx++) {
+            Row row = rows.get(idx);
+            Cell cell = (Cell) row.getCells().get(0);
+            String idStr = cell.getValue();
+            if (idStr.equals(TEST_CAT_ID)) {
+                return idx - 1; 
+            }
+        }
+        return -1;
+    }
+    
     /***************** PRIVATE Helper routines - END ******************/
 
 }

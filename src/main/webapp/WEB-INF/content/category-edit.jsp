@@ -16,9 +16,9 @@
 
  <s:fielderror />
 
- <s:form method="put" action="%{#pageContext.request.contextPath}/category/%{id}">
+ <s:form method="post" action="%{#pageContext.request.contextPath}category/%{id}">
   <s:hidden name="_method" value="put" />
-  <s:textfield id="id" label="ID" name="id" disabled="true" />
+  <s:hidden id="id" name="id" />
   <s:textfield id="name" label="Name" name="name" />
   <s:submit />
  </s:form>
