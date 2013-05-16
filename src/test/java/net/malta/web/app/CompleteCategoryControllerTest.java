@@ -23,7 +23,16 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.path.json.config.JsonPathConfig;
 
-public class CategoryControllerTest {
+/**
+ * Original proof of concept Test case that has no base class and 
+ * sets up the environment and paths itself.
+ * 
+ * Meant as a starting point to determine which parts can be generated
+ * and/or moved to library classes.
+ * 
+ * @author chris
+ */
+public class CompleteCategoryControllerTest {
 
     // Web Server Paths
     private final static String CONTEXT_PATH = "/st2proto";
