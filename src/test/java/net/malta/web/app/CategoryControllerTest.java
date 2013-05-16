@@ -26,11 +26,9 @@ import com.jayway.restassured.path.json.config.JsonPathConfig;
 public class CategoryControllerTest {
 
     // Web Server Paths
-    private final static int PORT = 8080;
     private final static String CONTEXT_PATH = "/st2proto";
-    private final static String BASE_URL = "http://localhost:" + PORT
-            + CONTEXT_PATH;
     private final static String DEFAULT_PATH = CONTEXT_PATH + "/category";
+    private static int PORT = 8080;
 
     // All test names should have this prefix. Ensures removeAll can clean up
     // test data.
@@ -43,6 +41,10 @@ public class CategoryControllerTest {
 
     static {
         JsonPath.config = new JsonPathConfig("UTF-8");
+
+        if (System.getProperty("appserver.port") != null)
+            PORT = Integer.parseInt(System.getProperty("appserver.port"));
+
         RestAssured.port = PORT;
     }
 
@@ -58,8 +60,8 @@ public class CategoryControllerTest {
 
     @Before
     public void prepare() {
-        setBaseUrl(BASE_URL);
-        
+        setBaseUrl("http://localhost:" + PORT + CONTEXT_PATH);
+
         // create one category that can be used by the tests
         // tests requiring more data can create it themselves
         TEST_CAT_ID = createCategory(TEST_CAT_NAME);
