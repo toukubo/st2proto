@@ -43,6 +43,7 @@ public class CategoryControllerTest {
 
     static {
         JsonPath.config = new JsonPathConfig("UTF-8");
+        RestAssured.port = PORT;
     }
 
     @BeforeClass
@@ -58,8 +59,7 @@ public class CategoryControllerTest {
     @Before
     public void prepare() {
         setBaseUrl(BASE_URL);
-        RestAssured.reset();
-
+        
         // create one category that can be used by the tests
         // tests requiring more data can create it themselves
         TEST_CAT_ID = createCategory(TEST_CAT_NAME);

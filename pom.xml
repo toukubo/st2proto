@@ -8,7 +8,6 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
-    <env>test</env>
     <spring.version>3.0.5.RELEASE</spring.version> <!-- use the struts2-parent uses this version of Spring -->
     <struts.version>2.3.12</struts.version>
     <hibernate.version>3.6.10.Final</hibernate.version>
@@ -17,48 +16,15 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>apache</id>
-      <name>repo.maven.apache.org</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>mvnrepository</id>
-      <name>mvnrepository</name>
-      <url>http://mvnrepository.com</url>
-    </repository>
-  </repositories>
-
-  <profiles>
-    <!-- Default profile is test: "mvn verify" will run all tests -->
-    <profile>
-      <id>test</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <env>test</env>
-      </properties>
-    </profile>
-
-    <!-- Dev profile for mysql war: "mvn -Ddev package" will build the war -->
-    <profile>
-      <id>dev</id>
-      <activation>
-        <property>
-          <name>dev</name>
-        </property>
-      </activation>
-      <properties>
-        <env>dev</env>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <finalName>st2proto</finalName>
     <defaultGoal>verify</defaultGoal>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -146,6 +112,19 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <repository>
+      <id>apache</id>
+      <name>repo.maven.apache.org</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>mvnrepository</id>
+      <name>mvnrepository</name>
+      <url>http://mvnrepository.com</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
@@ -272,4 +251,39 @@
       <version>2.2.9</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <!-- Default profile is test: "mvn" will run all tests (verify target) -->
+    <profile>
+      <id>test</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <jdbc.driverClassName>org.hsqldb.jdbcDriver</jdbc.driverClassName>
+        <jdbc.url>jdbc:hsqldb:.</jdbc.url>
+        <jdbc.username>sa</jdbc.username>
+        <jdbc.password></jdbc.password>
+        <hibernate.show_sql>false</hibernate.show_sql>
+        <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
+      </properties>
+    </profile>
+
+    <!-- Dev profile for mysql war: "mvn -Pdev" will build the war -->
+    <profile>
+      <id>dev</id>
+      <build>
+        <defaultGoal>package</defaultGoal>
+      </build>
+      <properties>
+        <jdbc.url>jdbc:mysql://localhost/malta?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true</jdbc.url>
+        <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+        <jdbc.username>malta</jdbc.username>
+        <jdbc.password>malta</jdbc.password>
+        <hibernate.show_sql>true</hibernate.show_sql>
+        <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
+      </properties>
+    </profile>
+  </profiles>
+
 </project>
